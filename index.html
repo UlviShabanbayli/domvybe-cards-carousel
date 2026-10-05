@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#06050A">
+  <title>Aurora Cinemas — Now showing</title>
+  <!-- before the first paint: the look (?look=films|icons|cars, or a|b|c), so the page never flashes the wrong one -->
+  <script>
+    (() => {
+      const html = document.documentElement, q = new URLSearchParams(location.search);
+      const look = { a: 'films', b: 'icons', c: 'cars' }[q.get('look')] || q.get('look');
+      html.dataset.look = ['films', 'icons', 'cars'].includes(look) ? look : 'films';
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Geist:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- a section of a real site: its header, then the showcase. app.js fills the words per look -->
+  <div class="amb" aria-hidden="true"><i class="backdrop a"></i><i class="backdrop b"></i><i class="glow g1"></i><i class="glow g2"></i></div>
+
+  <header class="site">
+    <a class="brand" href="#"><span class="mark" aria-hidden="true"></span><span class="brand-name"></span></a>
+    <nav class="links" aria-label="Main"></nav>
+    <a class="cta" href="#"></a>
+  </header>
+
+  <main>
+    <section class="showcase" aria-labelledby="sc-title">
+      <div class="intro">
+        <p class="eyebrow"></p>
+        <h2 id="sc-title"></h2>
+        <p class="lede"></p>
+      </div>
+
+      <!-- ============================== THE COMPONENT ==============================
+           A carousel of picture cards. Each card is a window: the picture inside moves on its own as the card moves
+           and as you tilt it, so it reads as depth. The three looks move in three different ways — Films line the
+           inside of a curved wide screen, Icons hang on threads in a shop window and swing, Cars drift in sideways with tyre
+           smoke and flash their headlights when they land. Drag (with a throw), the arrows, the
+           dots, the arrow keys or the wheel all move it; it never runs out. -->
+      <div class="carousel" aria-roledescription="carousel" tabindex="0">
+        <div class="rig"><div class="rig-in"></div></div>
+        <div class="controls">
+          <button class="nav prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <div class="dots" role="tablist" aria-label="Choose a slide"></div>
+          <button class="nav next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+        <p class="sr-only" aria-live="polite"></p>
+      </div>
+
+      <div class="after">
+        <a class="more" href="#"></a>
+        <p class="credit-line"></p>
+      </div>
+    </section>
+  </main>
+  <!-- the detail behind a card: tap the front card (or press Enter on the carousel) and it opens. app.js fills it -->
+  <dialog class="detail" aria-labelledby="dt-title">
+    <div class="dt-panel">
+      <i class="dt-sheet" aria-hidden="true"></i>
+      <figure class="dt-media"><img class="dt-pic" alt=""><div class="dt-lamps" aria-hidden="true"></div></figure>
+      <div class="dt-body"></div>
+    </div>
+    <!-- outside the panel, so it stays in the corner while the panel scrolls -->
+    <div class="dt-tools">
+      <button class="dt-prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <span class="dt-count" aria-hidden="true"></span>
+      <button class="dt-next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      <button class="dt-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+  </dialog>
+  <div class="touch" aria-hidden="true"></div>
+
+  <!-- one card: a window with its picture, a glare, and the words that float in front (app.js fills them per look) -->
+  <template id="card">
+    <article class="card" role="group" aria-roledescription="slide">
+      <div class="win"><img class="pic" alt="" draggable="false"></div>
+      <i class="glare" aria-hidden="true"></i>
+      <div class="info"></div>
+    </article>
+  </template>
+
+  <script src="spring.js"></script>
+  <script src="mechanics.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
